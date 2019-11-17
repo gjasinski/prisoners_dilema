@@ -1,5 +1,8 @@
 from Random import Random
 from TitForTat import TitForTat
+from TitForTatWithForgiveness import TitForTatWithForgiveness
+from Handshake import Handshake
+from Pavlov import Pavlov
 
 class Experiment:
     def __init__(self):
@@ -22,18 +25,22 @@ class Experiment:
         if action_1 == 'D' and action_2 == 'C':
             self.points_1 = self.points_1 + 5
             return
+        print("Error" + str(action_1) + " " + str(action_2))
         raise
 
 
     def __run_single(self, strategy_1, strategy_2, file_name):
         self.points_1 = 0
         self.points_2 = 0
+        strategy_1.clean()
+        strategy_2.clean()
         f = open("data/" + file_name + '.csv', 'w')
         f.write(str(strategy_1) + ";" + str(strategy_2) + "\n")
         str_1 = strategy_1.decide_first()
         str_2 = strategy_2.decide_first()
         self.__add_points(str_1, str_2)
         f.write(str(self.points_1) + ";" + str(self.points_2))
+        print(str_1 + ";" + str_2 + ";" + str(self.points_1) + ";" + str(self.points_2))
 
         for i in range(99):
             str_1, str_2 = strategy_1.decide(str_2), strategy_2.decide(str_1)
@@ -55,9 +62,25 @@ if __name__ == "__main__":
     experiment = Experiment()
     random_str = Random()
     tit_for_tat = TitForTat()
+    tit_for_tat_with_forgiveness = TitForTatWithForgiveness()
 
+    #Random
     experiment.run(random_str, random_str)
     experiment.run(random_str, tit_for_tat)
+    experiment.run(random_str, tit_for_tat_with_forgiveness)
+    experiment.run(random_str, Handshake())
+    experiment.run(random_str, Pavlov())
 
     experiment.run(tit_for_tat, tit_for_tat)
-    
+    experiment.run(random_str, tit_for_tat_with_forgiveness)
+    experiment.run(tit_for_tat, Handshake())
+    experiment.run(random_str, Pavlov())
+
+    experiment.run(tit_for_tat_with_forgiveness, tit_for_tat_with_forgiveness)
+    experiment.run(tit_for_tat_with_forgiveness, Handshake())
+    experiment.run(tit_for_tat_with_forgiveness, Pavlov())
+
+    experiment.run(Handshake(), Handshake())
+    experiment.run(tit_for_tat_with_forgiveness, Pavlov())
+
+    experiment.run(Pavlov(), Pavlov())

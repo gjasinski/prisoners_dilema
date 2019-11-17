@@ -12,6 +12,9 @@ class Random:
             return 'D'
         else:
             return 'C'
+    
+    def clean(self):
+        pass
 
     def __str__(self):
         return "Random"
