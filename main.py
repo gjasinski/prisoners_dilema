@@ -35,27 +35,27 @@ class Experiment:
         strategy_1.clean()
         strategy_2.clean()
         f = open("data/" + file_name + '.csv', 'w')
-        f.write(str(strategy_1) + ";" + str(strategy_2) + "\n")
+        f.write(str(strategy_1) + "," + str(strategy_2) + "\n")
         str_1 = strategy_1.decide_first()
         str_2 = strategy_2.decide_first()
         self.__add_points(str_1, str_2)
-        f.write(str(self.points_1) + ";" + str(self.points_2))
-        print(str_1 + ";" + str_2 + ";" + str(self.points_1) + ";" + str(self.points_2))
+        f.write(str(self.points_1) + "," + str(self.points_2))
+        print(str_1 + "," + str_2 + "," + str(self.points_1) + "," + str(self.points_2))
 
         for i in range(99):
             str_1, str_2 = strategy_1.decide(str_2), strategy_2.decide(str_1)
             self.__add_points(str_1, str_2)
-            print(str_1 + ";" + str_2 + ";" + str(self.points_1) + ";" + str(self.points_2))
-            f.write(str(self.points_1) + ";" + str(self.points_2) + "\n")
+            print(str_1 + "," + str_2 + "," + str(self.points_1) + "," + str(self.points_2))
+            f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
         f.close()
     
     def run(self, strategy_1, strategy_2):
         file_name = str(strategy_1) + "_" + str(strategy_2)
         f = open("data/" + file_name + '.csv', 'w')
-        f.write(str(strategy_1) + ";" + str(strategy_2) + "\n")
+        f.write(str(strategy_1) + "," + str(strategy_2) + "\n")
         for i in range(10):
             self.__run_single(strategy_1, strategy_2, file_name + "_" + str(i))
-            f.write(str(self.points_1) + ";" + str(self.points_2) + "\n")
+            f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
 
 
 if __name__ == "__main__":
