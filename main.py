@@ -39,7 +39,7 @@ class Experiment:
         str_1 = strategy_1.decide_first()
         str_2 = strategy_2.decide_first()
         self.__add_points(str_1, str_2)
-        f.write(str(self.points_1) + "," + str(self.points_2))
+        f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
         print(str_1 + "," + str_2 + "," + str(self.points_1) + "," + str(self.points_2))
 
         for i in range(99):
