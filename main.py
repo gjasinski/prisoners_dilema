@@ -54,18 +54,33 @@ class Experiment:
         res1 = []
         res2 = []
         file_name = str(strategy_1) + "_" + str(strategy_2)
-        f = open("data/" + file_name + '.csv', 'w')
+        f = open("data/" + file_name + '.csv', 'a+')
+        f_min = open('data/min.csv', 'a+')
+        f_max = open('data/max.csv', 'a+')
+        f_avg = open('data/avg.csv', 'a+')
+        f_stddev = open('data/stddev.csv', 'a+')
         f.write(str(strategy_1) + "," + str(strategy_2) + "\n")
         for i in range(10):
             self.__run_single(strategy_1, strategy_2, file_name + "_" + str(i))
             f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
             res1 = res1 + [self.points_1]
             res2 = res2 + [self.points_2]
-        f = open("data/" + file_name + '_res.csv', 'w')
-        f.write("min," + str(min(res1)) + "," + str(min(res2)) + "\n")
-        f.write("max," + str(max(res1)) + "," + str(max(res2)) + "\n")
-        f.write("avg," + str(sum(res1)/len(res1)) + "," + str(sum(res2)/len(res2)) + "\n")
-        f.write("stddev," + str(statistics.stdev(res1)) + "," + str(statistics.stdev(res2)) + "\n")
+        #f = open("data/" + file_name + '_res.csv', 'w')
+        #f.write("min," + str(min(res1)) + "," + str(min(res2)) + "\n")
+        #f.write("max," + str(max(res1)) + "," + str(max(res2)) + "\n")
+        #f.write("avg," + str(sum(res1)/len(res1)) + "," + str(sum(res2)/len(res2)) + "\n")
+        #f.write("stddev," + str(statistics.stdev(res1)) + "," + str(statistics.stdev(res2)) + "\n")
+        f_min.write(str(strategy_1) + " vs " + str(strategy_2) + ";" + str(min(res1)) + "\n")
+        f_min.write(str(strategy_2) + " vs " + str(strategy_1) + ";" + str(min(res2)) + "\n")
+
+        f_max.write(str(strategy_1) + " vs " + str(strategy_2) + ";" + str(max(res1)) + "\n")
+        f_max.write(str(strategy_2) + " vs " + str(strategy_1) + ";" + str(max(res2)) + "\n")
+
+        f_avg.write(str(strategy_1) + " vs " + str(strategy_2) + ";" + str(sum(res1)/len(res1)) + "\n")
+        f_avg.write(str(strategy_2) + " vs " + str(strategy_1) + ";" + str(sum(res2)/len(res2)) + "\n")
+
+        f_stddev.write(str(strategy_1) + " vs " + str(strategy_2) + ";" + str(statistics.stdev(res1)) + "\n")
+        f_stddev.write(str(strategy_2) + " vs " + str(strategy_1) + ";" + str(statistics.stdev(res2)) + "\n")
         
 
 
