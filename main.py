@@ -1,3 +1,4 @@
+import statistics
 from Random import Random
 from TitForTat import TitForTat
 from TitForTatWithForgiveness import TitForTatWithForgiveness
@@ -34,28 +35,38 @@ class Experiment:
         self.points_2 = 0
         strategy_1.clean()
         strategy_2.clean()
-        f = open("data/" + file_name + '.csv', 'w')
-        f.write(str(strategy_1) + "," + str(strategy_2) + "\n")
+        #f = open("data/" + file_name + '.csv', 'w')
+        #f.write(str(strategy_1) + "," + str(strategy_2) + "\n")
         str_1 = strategy_1.decide_first()
         str_2 = strategy_2.decide_first()
         self.__add_points(str_1, str_2)
-        f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
+        #f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
         print(str_1 + "," + str_2 + "," + str(self.points_1) + "," + str(self.points_2))
 
         for i in range(99):
             str_1, str_2 = strategy_1.decide(str_2), strategy_2.decide(str_1)
             self.__add_points(str_1, str_2)
             print(str_1 + "," + str_2 + "," + str(self.points_1) + "," + str(self.points_2))
-            f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
-        f.close()
+        #    f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
+        #f.close()
     
     def run(self, strategy_1, strategy_2):
+        res1 = []
+        res2 = []
         file_name = str(strategy_1) + "_" + str(strategy_2)
         f = open("data/" + file_name + '.csv', 'w')
         f.write(str(strategy_1) + "," + str(strategy_2) + "\n")
         for i in range(10):
             self.__run_single(strategy_1, strategy_2, file_name + "_" + str(i))
             f.write(str(self.points_1) + "," + str(self.points_2) + "\n")
+            res1 = res1 + [self.points_1]
+            res2 = res2 + [self.points_2]
+        f = open("data/" + file_name + '_res.csv', 'w')
+        f.write("min," + str(min(res1)) + "," + str(min(res2)) + "\n")
+        f.write("max," + str(max(res1)) + "," + str(max(res2)) + "\n")
+        f.write("avg," + str(sum(res1)/len(res1)) + "," + str(sum(res2)/len(res2)) + "\n")
+        f.write("stddev," + str(statistics.stdev(res1)) + "," + str(statistics.stdev(res2)) + "\n")
+        
 
 
 if __name__ == "__main__":
